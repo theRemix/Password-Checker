@@ -27,9 +27,13 @@ module.exports = {
 				bypass: function (req, res, proxyOptions) {
 					return '/public/index.html';
 				}
-			}
-		}
-	},
+      },
+      '/api/**': {
+        target: 'http://localhost:8000',
+        secure: false
+      }
+    }
+  },
 	plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.tpl.html',
