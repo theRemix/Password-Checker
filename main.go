@@ -4,13 +4,15 @@ import (
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"./routes"
 )
 
 const (
-	staticDir = "./public"
+	staticDir   = "./public"
+	defaultPort = "8000"
 )
 
 func main() {
@@ -20,7 +22,7 @@ func main() {
 	http.Handle("/", r)
 
 	host := "0.0.0.0"
-	port := "8000"
+	port := getEnvOrDefault("PORT", defaultPort)
 	listenAddr := host + ":" + port
 
 	log.Printf("Server listening on %s", listenAddr)
@@ -33,4 +35,11 @@ func main() {
 	}
 
 	log.Fatal(srv.ListenAndServe())
+}
+
+func getEnvOrDefault(env string, fallback string) string {
+	if os.Getenv(env) != "" {
+		return os.Getenv(env)
+	}
+	return fallback
 }
