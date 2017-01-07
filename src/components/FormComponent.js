@@ -8,6 +8,7 @@ export class FormComponent extends Component{
     this.state = {
       username: null,
       password: null,
+      errors: null
     };
     this.updateUsername = this.updateUsername.bind(this);
     this.updatePassword = this.updatePassword.bind(this);
@@ -25,23 +26,42 @@ export class FormComponent extends Component{
   submit(event) {
     event.preventDefault();
     // handle form submission
+    const req = new Request("/api/test");
+    fetch(req)
+      .then(res => res.json())
+      .then(res => {
+        let result = res.success ?
+          "Congratulations, this is your correct password!" :
+          "This is not your password!";
+        this.setState({ result });
+      })
+      .catch(err => {
+        let errors = err instanceof SyntaxError ?
+          "Server found a broken" :
+          err.toString();
+        this.setState({ errors });
+      });
   }
 
   render() {
     return (
-      <form action="#" onSubmit={this.submit}>
-        <div className="field">
-          <label htmlFor="username">Enter Your Username</label>
-          <input id="username" type="text" name="username" onChange={this.updateUsername} />
-        </div>
-        <div className="field">
-          <label htmlFor="password">Enter Your Password</label>
-          <input id="password" type="password" name="password" onChange={this.updatePassword} />
-        </div>
-        <div className="field">
-          <button type="submit">Check</button>
-        </div>
-      </form>
+      <div>
+        <h2>{this.state.result}</h2>
+        <form action="#" onSubmit={this.submit}>
+          <div className="field">
+            <label htmlFor="username">Enter Your Username</label>
+            <input id="username" type="text" name="username" onChange={this.updateUsername} />
+          </div>
+          <div className="field">
+            <label htmlFor="password">Enter Your Password</label>
+            <input id="password" type="password" name="password" onChange={this.updatePassword} />
+          </div>
+          <div className="field">
+            <button type="submit">Check</button>
+          </div>
+        </form>
+        <div className="error">{this.state.errors}</div>
+      </div>
     );
   }
 }
