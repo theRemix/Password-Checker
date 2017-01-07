@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "release": "webpack --config webpack.conf.js",
-    "start": "webpack-dev-server --quiet --config webpack.conf.js --host 0.0.0.0",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "webpack-dev-server --quiet --config webpack.conf.js --host 0.0.0.0",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "go run main.go"
   },
   "repository": {
     "type": "git",
