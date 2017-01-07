@@ -1,11 +1,13 @@
 const webpack = require('webpack');
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
 	entry: './src/index.js',
 	output: {
-		path: '.',
+    path: path.join(__dirname, 'public'),
 		filename: 'bundle.js',
-		publicPath: 'http://localhost:8080/'
+    publicPath: '/'
 	},
 	devtool: 'source-map',
 	module: {
@@ -29,6 +31,11 @@ module.exports = {
 		}
 	},
 	plugins: [
+    new HtmlWebpackPlugin({
+      template: './src/index.tpl.html',
+      inject: 'body',
+      filename: 'index.html',
+    }),
 		new webpack.HotModuleReplacementPlugin()
-	]
+  ]
 };
