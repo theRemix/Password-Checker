@@ -24,3 +24,4 @@ coverage
 node_modules
 
 public/*.map
+users.db
