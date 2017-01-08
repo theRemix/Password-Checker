@@ -63,7 +63,7 @@
 /******/ 	}
 /******/
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "773b49a62f5ab9e8d635"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "7193ba29526997e03d37"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/
@@ -5444,24 +5444,21 @@
 	
 	      event.preventDefault();
 	      // handle form submission
-	      var req = new Request('/api/test');
+	      var req = new Request("/api/check", { method: "POST", body: '{"username": "' + this.state.username + '", "password": "' + this.state.password + '", "timestamp": "' + Date.now().toString() + '"}' });
 	      fetch(req).then(function (res) {
 	        return res.json();
 	      }).then(function (res) {
-	        console.log("got response", res);
+	        var result = res.success ? "Congratulations, this is your correct password!" : "This is not your password!";
+	        _this2.setState({ result: result });
 	      }).catch(function (err) {
-	        if (err instanceof SyntaxError) {
-	          // json parse, bad response from server
-	          _this2.state.errors = "Server found a broken";
-	        } else {
-	          _this2.state.errors = err.toString();
-	        }
+	        var errors = err instanceof SyntaxError ? "Server found a broken" : err.toString();
+	        _this2.setState({ errors: errors });
 	      });
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      return createVNode(2, 'form', {
+	      return createVNode(2, 'div', null, [createVNode(2, 'h2', null, this.state.result), createVNode(2, 'form', {
 	        'action': '#'
 	      }, [createVNode(2, 'div', {
 	        'className': 'field'
@@ -5487,11 +5484,11 @@
 	        'className': 'field'
 	      }, createVNode(2, 'button', {
 	        'type': 'submit'
-	      }, 'Check')), createVNode(2, 'div', {
-	        'className': 'error'
-	      }, this.state.errors)], {
+	      }, 'Check'))], {
 	        'onSubmit': this.submit
-	      });
+	      }), createVNode(2, 'div', {
+	        'className': 'error'
+	      }, this.state.errors)]);
 	    }
 	  }]);
 
