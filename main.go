@@ -18,6 +18,7 @@ const (
 func main() {
 	r := mux.NewRouter()
 	r.HandleFunc("/api/test", routes.TestApiHandler)
+	r.HandleFunc("/api/check", routes.CheckApiHandler)
 	r.PathPrefix("/").Handler(http.StripPrefix("/", http.FileServer(http.Dir(staticDir))))
 	http.Handle("/", r)
 

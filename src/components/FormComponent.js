@@ -25,8 +25,9 @@ export class FormComponent extends Component{
 
   submit(event) {
     event.preventDefault();
+    console.log(event);
     // handle form submission
-    const req = new Request("/api/test");
+    const req = new Request("/api/check", { method: "POST", body: `{"username": ${this.state.username}, "password": ${this.state.password}}` });
     fetch(req)
       .then(res => res.json())
       .then(res => {
