@@ -4,6 +4,8 @@
   "description": "SSH 2017 Hackathon Project",
   "main": "index.js",
   "scripts": {
+    "docker-compile-bin":"docker run -v $GOPATH:/go/ -v $PWD:/app -w /app -e CGO_ENABLED=0 -e GOOS=linux golang go build -a -tags netgo -ldflags '-w' -o bin/server",
+    "release-server": "go build -o bin/server",
     "release": "webpack --config webpack.conf.js",
     "dev": "webpack-dev-server --quiet --config webpack.conf.js --host 0.0.0.0",
     "test": "echo \"Error: no test specified\" && exit 1",
